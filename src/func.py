@@ -46,7 +46,22 @@ def adding_last_operations(data):
         return data[-5:]
 
 
+def date_format(data):
+    """
+    возвращает список операций с датой в нужном формате
+    :param data: список операций
+    :return: список операций с датой в нужном формате
+    """
+    new_format_date = []
+    for operation in data:
+        date = datetime.strptime(operation["date"], "%Y-%m-%dT%H:%M:%S.%f")
+        operation["date"] = date.strftime("%d.%m.%Y")
+        new_format_date.append(operation)
+    return new_format_date
+
+
+
 # file_path = os.path.join("../tmp/operations.json")
 # a = load_data(file_path)
 #
-# print(adding_last_operations(filters_operations(a)))
+# print(date_format(adding_last_operations(filters_operations(a))))
