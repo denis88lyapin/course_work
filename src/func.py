@@ -17,7 +17,6 @@ def load_data(path):
     return data
 
 
-
 def filters_operations(data):
     """
     Возвращает отфильтрованные операции, убирает операции без необходимых для вывода данных
@@ -33,7 +32,21 @@ def filters_operations(data):
     return cleared_operations
 
 
+def adding_last_operations(data):
+    """
+    Возвращает список последних операций
+    :param data: список операций
+    :return: списмок последних операций
+    """
+    if len(data) == 0:
+        return f"У Вас нет проведенных операций"
+    elif len(data) < 5:
+        return data
+    else:
+        return data[-5:]
+
+
 # file_path = os.path.join("../tmp/operations.json")
 # a = load_data(file_path)
 #
-# print(filters_operations(a))
+# print(adding_last_operations(filters_operations(a)))
