@@ -68,6 +68,7 @@ def data_format(data):
                                 })
     return new_format_date
 
+
 def mask_nuber(str):
     """
     Маскирует номара карт в формате XXXX XX** **** XXXX
@@ -88,6 +89,7 @@ def mask_nuber(str):
         new_str = str
     return new_str
 
+
 def format_date(date):
     """
     Преобразует дату из в нужный формат
@@ -105,14 +107,3 @@ def sort_date(data):
     """
     data_sorted = data.sort(key=lambda x: datetime.strptime(x.get("date"), "%Y-%m-%dT%H:%M:%S.%f"))
     return data_sorted
-
-
-
-
-file_path = os.path.join("../tmp/operations.json")
-a = load_data(file_path)
-
-print(data_format(adding_last_operations(filters_operations(a))))
-
-
-
