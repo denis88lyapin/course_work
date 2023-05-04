@@ -19,7 +19,7 @@ def main():
         print(f""
               f"{data['date']} {data['description']}\n"
               f"{data['from']} -> {data['to']}\n"
-              f"{data['amount']} {data['currency']}")
+              f"{data['amount']} {data['currency']}\n")
 
 
 if __name__ == "__main__":
