@@ -46,22 +46,67 @@ def adding_last_operations(data):
         return data[-5:]
 
 
-def date_format(data):
+def data_format(data):
     """
-    возвращает список операций с датой в нужном формате
+    возвращает список операций в нужном формате
     :param data: список операций
-    :return: список операций с датой в нужном формате
+    :return: список операций в нужном формате
     """
     new_format_date = []
     for operation in data:
-        date = datetime.strptime(operation["date"], "%Y-%m-%dT%H:%M:%S.%f")
-        operation["date"] = date.strftime("%d.%m.%Y")
-        new_format_date.append(operation)
+        date = format_date(operation["date"])
+        from_ = mask_nuber(operation["from"])
+
+        # Маскируем данные, аналогично "from"
+        to = mask_nuber(operation["to"])
+        new_format_date.append({
+                                "date": date,
+                                "description": operation["description"],
+                                "from": from_,
+                                "to": to,
+                                "amount": operation['operationAmount']['amount'],
+                                "currency": operation['operationAmount']['currency']['name']
+                                })
     return new_format_date
 
+def mask_nuber(str):
+    """
+    Маскирует номара карт в формате XXXX XX** **** XXXX
+    и счетов в формате **XXXX
+    :param str: строка с указанием номера
+    :return: строка с замаскированным номером
+    """
+    if "Maestro" in str or "MasterCard" in str or "Visa" in str:
+        card_number = str.split()[-1]
+        masked_card_number = f"{card_number[:6]} {'*' * 4} **** {card_number[-4:]}"
+        new_str = str.replace(card_number, masked_card_number)
+        # Маскирует номер счета, последнее слово в строке - это номер счета
+    elif 'Счет' in str:
+        account_number = str.split()[-1]
+        masked_account_number = f"**{account_number[-4:]}"
+        new_str = str.replace(account_number, masked_account_number)
+    else:
+        new_str = str
+    return new_str
+
+def format_date(date):
+    """
+    Преобразует дату из в нужный формат
+    :param date: дата в формате "%Y-%m-%dT%H:%M:%S.%f"
+    :return: дата в формате "%d.%m.%Y"
+    """
+    date_new = datetime.strptime(date, "%Y-%m-%dT%H:%M:%S.%f").strftime("%d.%m.%Y")
+    return date_new
 
 
-# file_path = os.path.join("../tmp/operations.json")
-# a = load_data(file_path)
-#
-# print(date_format(adding_last_operations(filters_operations(a))))
+
+
+
+
+file_path = os.path.join("../tmp/operations.json")
+a = load_data(file_path)
+
+print(data_format(adding_last_operations(filters_operations(a))))
+
+
+
