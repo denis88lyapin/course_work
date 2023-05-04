@@ -21,14 +21,13 @@ def filters_operations(data):
     """
     Возвращает отфильтрованные операции, убирает операции без необходимых для вывода данных
     :param data: список всех операций
-    :return: список отфильтрованных опрераций, отсортированный по дате и времени
+    :return: список отфильтрованных опрераций
     """
     cleared_operations = []
     for operation in data:
         if all(key in operation and operation[key] for key in ["state", "date", "description", "from", "to", "operationAmount"]):
             if operation.get("state") == "EXECUTED":
                 cleared_operations.append(operation)
-    cleared_operations.sort(key=lambda x: datetime.strptime(x.get("date"), "%Y-%m-%dT%H:%M:%S.%f"))
     return cleared_operations
 
 
@@ -98,7 +97,14 @@ def format_date(date):
     date_new = datetime.strptime(date, "%Y-%m-%dT%H:%M:%S.%f").strftime("%d.%m.%Y")
     return date_new
 
-
+def sort_date(data):
+    """
+    Возвращает отсортированные по дате опенрации
+    :param data: список операций
+    :return: отсортированнный список операций
+    """
+    data_sorted = data.sort(key=lambda x: datetime.strptime(x.get("date"), "%Y-%m-%dT%H:%M:%S.%f"))
+    return data_sorted
 
 
 
