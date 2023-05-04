@@ -42,7 +42,7 @@ def adding_last_operations(data):
     elif len(data) < 5:
         return data
     else:
-        return data[-5:]
+        return data[:5]
 
 
 def data_format(data):
@@ -105,5 +105,5 @@ def sort_date(data):
     :param data: список операций
     :return: отсортированнный список операций
     """
-    data_sorted = data.sort(key=lambda x: datetime.strptime(x.get("date"), "%Y-%m-%dT%H:%M:%S.%f"))
-    return data_sorted
+    data.sort(key=lambda x: datetime.strptime(x.get("date"), "%Y-%m-%dT%H:%M:%S.%f"), reverse=True)
+    return data
