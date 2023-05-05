@@ -3,6 +3,8 @@ import os
 
 # файл с данными
 file_path = os.path.join("../tmp/operations.json")
+
+
 def main():
     # загрузка данных из файла
     data = func.load_data(file_path)
@@ -24,10 +26,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-
-
-
-
-
-
