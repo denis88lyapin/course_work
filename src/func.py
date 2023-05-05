@@ -13,7 +13,7 @@ def load_data(path):
         with open(path, "r", encoding="utf-8") as file:
             data = json.load(file)
     except json.JSONDecodeError:
-        raise ValueError((f"Файл {path} содержит неверный формат данных"))
+        raise ValueError(f"Файл {path} содержит неверный формат данных")
     return data
 
 
@@ -29,6 +29,16 @@ def filters_operations(data):
             if operation.get("state") == "EXECUTED":
                 cleared_operations.append(operation)
     return cleared_operations
+
+
+def sort_date(data):
+    """
+    Возвращает отсортированные по дате опенрации
+    :param data: список операций
+    :return: отсортированнный список операций
+    """
+    data.sort(key=lambda x: datetime.strptime(x.get("date"), "%Y-%m-%dT%H:%M:%S.%f"), reverse=True)
+    return data
 
 
 def adding_last_operations(data):
@@ -98,12 +108,3 @@ def format_date(date):
     """
     date_new = datetime.strptime(date, "%Y-%m-%dT%H:%M:%S.%f").strftime("%d.%m.%Y")
     return date_new
-
-def sort_date(data):
-    """
-    Возвращает отсортированные по дате опенрации
-    :param data: список операций
-    :return: отсортированнный список операций
-    """
-    data.sort(key=lambda x: datetime.strptime(x.get("date"), "%Y-%m-%dT%H:%M:%S.%f"), reverse=True)
-    return data
