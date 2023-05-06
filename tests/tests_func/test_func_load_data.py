@@ -5,7 +5,7 @@ import pytest
 
 @pytest.fixture
 def json_data(tmp_path):
-    # Временный файл с данными
+    """Временный файл с данными"""
     data = {'operations': [{'type': 'deposit', 'amount': 100}, {'type': 'withdraw', 'amount': 50}]}
     json_file = tmp_path / 'data.json'
     with open(json_file, 'w') as f:
@@ -14,17 +14,17 @@ def json_data(tmp_path):
 
 
 def test_load_data_with_valid_data(json_data):
-    # Проверка, что данные успешно загружены
+    """Проверка, что данные успешно загружены"""
     data = load_data(json_data)
     assert data == {'operations': [{'type': 'deposit', 'amount': 100}, {'type': 'withdraw', 'amount': 50}]}
 
 def test_load_data_with_invalid_file_path():
-    # Проверка ошибки загрузки данных
+    """"Проверка ошибки загрузки данных"""
     with pytest.raises(FileNotFoundError):
         load_data("не указал файл")
 
 def test_load_data_with_invalid_json_data(tmp_path):
-    # Проверка ошибки неверного формата данных
+    """Проверка ошибки неверного формата данных"""
     invalid_json_file = tmp_path / 'invalid_data.json'
     with open(invalid_json_file, 'w') as f:
         f.write('not json data')
