@@ -88,7 +88,7 @@ def mask_nuber(str):
     """
     if "Maestro" in str or "MasterCard" in str or "Visa" in str:
         card_number = str.split()[-1]
-        masked_card_number = f"{card_number[:6]} {'*' * 4} **** {card_number[-4:]}"
+        masked_card_number = f"{card_number[:4]} {card_number[5:7]}{'*' * 2} **** {card_number[-4:]}"
         new_str = str.replace(card_number, masked_card_number)
         # Маскирует номер счета, последнее слово в строке - это номер счета
     elif 'Счет' in str:
