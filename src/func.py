@@ -48,7 +48,7 @@ def adding_last_operations(data):
     :return: списмок последних операций
     """
     if len(data) == 0:
-        return f"У Вас нет проведенных операций"
+        return "У Вас нет проведенных операций"
     elif len(data) < 5:
         return data
     else:
