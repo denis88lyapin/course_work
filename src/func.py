@@ -13,7 +13,7 @@ def load_data(path):
         with open(path, "r", encoding="utf-8") as file:
             data = json.load(file)
     except json.JSONDecodeError:
-        raise ValueError((f"Файл {path} содержит неверный формат данных"))
+        raise ValueError(f"Файл {path} содержит неверный формат данных")
     return data
 
 
@@ -31,6 +31,16 @@ def filters_operations(data):
     return cleared_operations
 
 
+def sort_date(data):
+    """
+    Возвращает отсортированные по дате опенрации
+    :param data: список операций
+    :return: отсортированнный список операций
+    """
+    data.sort(key=lambda x: datetime.strptime(x.get("date"), "%Y-%m-%dT%H:%M:%S.%f"), reverse=True)
+    return data
+
+
 def adding_last_operations(data):
     """
     Возвращает список последних операций
@@ -38,7 +48,7 @@ def adding_last_operations(data):
     :return: списмок последних операций
     """
     if len(data) == 0:
-        return f"У Вас нет проведенных операций"
+        return "У Вас нет проведенных операций"
     elif len(data) < 5:
         return data
     else:
@@ -78,7 +88,7 @@ def mask_nuber(str):
     """
     if "Maestro" in str or "MasterCard" in str or "Visa" in str:
         card_number = str.split()[-1]
-        masked_card_number = f"{card_number[:6]} {'*' * 4} **** {card_number[-4:]}"
+        masked_card_number = f"{card_number[:4]} {card_number[4:6]}{'*' * 2} **** {card_number[-4:]}"
         new_str = str.replace(card_number, masked_card_number)
         # Маскирует номер счета, последнее слово в строке - это номер счета
     elif 'Счет' in str:
@@ -98,12 +108,3 @@ def format_date(date):
     """
     date_new = datetime.strptime(date, "%Y-%m-%dT%H:%M:%S.%f").strftime("%d.%m.%Y")
     return date_new
-
-def sort_date(data):
-    """
-    Возвращает отсортированные по дате опенрации
-    :param data: список операций
-    :return: отсортированнный список операций
-    """
-    data.sort(key=lambda x: datetime.strptime(x.get("date"), "%Y-%m-%dT%H:%M:%S.%f"), reverse=True)
-    return data
